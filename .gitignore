@@ -1,2 +1,5 @@
 nlpsql/*
-Query_Parser/teststuff/*
+Query_Parser/externalfiles/*
+*.xml
+.idea/*
+*.pyc

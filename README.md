@@ -17,3 +17,4 @@ Install the huggingface cli using brew.
 
 huggingface-cli download motherduckdb/DuckDB-NSQL-7B-v0.1-GGUF DuckDB-NSQL-7B-v0.1-q8_0.gguf --local-dir . --local-dir-use-symlinks False
 
+run the job using the makefile provided in the code.

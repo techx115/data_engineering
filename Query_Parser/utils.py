@@ -1,12 +1,9 @@
-import pathlib
-import re
 import sys
-import subprocess
+import re
 from typing import Any
-
+import subprocess
 from wurlitzer import pipes
 from duckdb import DuckDBPyConnection
-
 
 PROMPT_TEMPLATE = """### Instruction:\n{instruction}\n\n### Input:\n{input}\n### Question:\n{question}\n\n### Response (use duckdb shorthand if possible):\n"""
 INSTRUCTION_TEMPLATE = """Your task is to generate valid duckdb SQL to answer the following question{has_schema}"""  # noqa: E501
@@ -40,7 +37,7 @@ def generate_prompt(question: str, schema: str) -> str:
     if schema:
         # Lowercase types inside each CREATE TABLE (...) statement
         for create_table in re.findall(
-            r"CREATE TABLE [^(]+\((.*?)\);", schema, flags=re.DOTALL | re.MULTILINE
+                r"CREATE TABLE [^(]+\((.*?)\);", schema, flags=re.DOTALL | re.MULTILINE
         ):
             for create_col in re.findall(r"(\w+) (\w+)", create_table):
                 schema = schema.replace(
@@ -61,10 +58,10 @@ def generate_prompt(question: str, schema: str) -> str:
 
 
 def generate_sql(
-    question: str,
-    connection: DuckDBPyConnection,
-    llama: Any,
-    max_tokens: int = 300,
+        question: str,
+        connection: DuckDBPyConnection,
+        llama: Any,
+        max_tokens: int = 300,
 ) -> [str, bool, str]:
     schema = get_schema(connection)
     prompt = generate_prompt(question, schema)
@@ -88,11 +85,10 @@ def generate_sql(
 def validate_sql(query, schema):
     try:
         # Define subprocess
-        root = pathlib.Path(__file__).parent
         process = subprocess.Popen(
-            [sys.executable, root / 'validate_sql.py', query, schema],
+            [sys.executable, './validate_sql.py', query, schema],
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            stderr=subprocess.PIPE
         )
         # Get output and potential parser, and binder error message
         stdout, stderr = process.communicate(timeout=0.5)

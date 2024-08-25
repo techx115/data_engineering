@@ -1,0 +1,5 @@
+nlpsql/*
+Query_Parser/externalfiles/*
+*.xml
+.idea/*
+*.pyc
